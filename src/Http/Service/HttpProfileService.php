@@ -1,31 +1,24 @@
 <?php
 namespace Chatbox\ApiAuth\Http\Service;
-use Chatbox\ApiAuth\Domains\TokenServiceInterface;
-use Chatbox\ApiAuth\Domains\UserServiceInterface;
+use Chatbox\ApiAuth\ApiAuthService;
 use Chatbox\ApiAuth\Domains\User;
 
 /**
- * Created by PhpStorm.
  * User: mkkn
  * Date: 2016/06/25
  * Time: 14:21
  */
-class ProfileService
+class HttpProfileService
 {
     protected $user;
 
     protected $token;
 
-    /**
-     * ProfileService constructor.
-     * @param $user
-     */
     public function __construct(
-        UserServiceInterface $user,
-        TokenServiceInterface $token
+        ApiAuthService $apiAuthService
     ){
-        $this->user = $user;
-        $this->token = $token;
+        $this->user = $apiAuthService->user();
+        $this->token = $apiAuthService->token();
     }
 
 
@@ -34,7 +27,7 @@ class ProfileService
     }
 
     public function findByToken($token):User{
-        return $this->token->loadByToken($token)->user;
+        return $this->token->load($token)->value;
     }
 
     public function update($token,$user):User{

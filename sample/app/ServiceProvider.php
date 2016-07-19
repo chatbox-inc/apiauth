@@ -1,13 +1,12 @@
 <?php
 namespace App;
-use App\Model\AuthTokenTable;
 use App\Model\UserTable;
 use Chatbox\ApiAuth\ApiAuthServiceProvider;
-use Chatbox\ApiAuth\Models\Token;
 use Chatbox\ApiAuth\RegisterRouteTrait;
 use Chatbox\ApiAuth\Domains\UserServiceInterface;
-use Chatbox\ApiAuth\Domains\TokenServiceInterface;
 use Chatbox\Token\Storage\Mock\ArrayStorage;
+use Chatbox\Token\TokenService;
+use Chatbox\Token\TokenServiceInterface;
 
 /**
  * Created by PhpStorm.
@@ -34,6 +33,6 @@ class ServiceProvider extends ApiAuthServiceProvider
     function tokenServieFactory():TokenServiceInterface
     {
         $storage = new ArrayStorage();
-        return new Token($storage);
+        return new TokenService($storage);
     }
 }

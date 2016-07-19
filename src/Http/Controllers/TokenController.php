@@ -1,7 +1,7 @@
 <?php
 namespace Chatbox\ApiAuth\Http\Controllers;
 use Chatbox\ApiAuth\Http\AuthRequest;
-use Chatbox\ApiAuth\Http\Service\TokenService;
+use Chatbox\ApiAuth\Http\Service\HttpTokenService;
 
 /**
  * Created by PhpStorm.
@@ -21,7 +21,7 @@ class TokenController
      */
     public function __construct(
         AuthRequest $request,
-        TokenService $service)
+        HttpTokenService $service)
     {
         $this->request = $request;
         $this->service = $service;

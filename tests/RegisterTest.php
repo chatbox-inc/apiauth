@@ -51,7 +51,7 @@ class RegisterTest extends TestCase
             ]
         ]);
         $this->assertResponseOk();
-        $authtoken = $this->getResponseJson("token.token");
+        $authtoken = $this->getResponseJson("token.key");
         $this->assertEquals(1, preg_match("#^[a-zA-Z0-9]{6,}$#", $authtoken));
 
         $this->get("/profile",[

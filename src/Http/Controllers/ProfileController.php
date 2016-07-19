@@ -1,7 +1,7 @@
 <?php
 namespace Chatbox\ApiAuth\Http\Controllers;
 use Chatbox\ApiAuth\Http\AuthRequest;
-use Chatbox\ApiAuth\Http\Service\ProfileService;
+use Chatbox\ApiAuth\Http\Service\HttpProfileService;
 
 /**
  * Created by PhpStorm.
@@ -23,7 +23,7 @@ class ProfileController
      */
     public function __construct(
         AuthRequest $request,
-        ProfileService $service)
+        HttpProfileService $service)
     {
         $this->request = $request;
         $this->service = $service;

@@ -1,10 +1,10 @@
 <?php
 namespace Chatbox\ApiAuth;
 
+use Chatbox\Token\TokenServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 use Chatbox\ApiAuth\Domains\UserServiceInterface;
-use Chatbox\ApiAuth\Domains\TokenServiceInterface;
 
 
 /**
@@ -16,10 +16,10 @@ abstract class ApiAuthServiceProvider extends ServiceProvider
     public function register()
     {
         $app = $this->app;
-        $app->singleton(UserServiceInterface::class,function(){
+        $app->singleton("apiauth.user",function(){
             return $this->userServiceFactory();
         });
-        $app->singleton(TokenServiceInterface::class,function(){
+        $app->singleton("apiauth.token",function(){
             return $this->tokenServieFactory();
         });
     }

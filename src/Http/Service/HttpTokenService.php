@@ -1,39 +1,35 @@
 <?php
 namespace Chatbox\ApiAuth\Http\Service;
-use Chatbox\ApiAuth\Domains\Token;
-use Chatbox\ApiAuth\Domains\TokenServiceInterface;
 use Chatbox\ApiAuth\Domains\UserServiceInterface;
+use Chatbox\Token\TokenServiceInterface;
+use Chatbox\Token\Token;
+use Chatbox\ApiAuth\ApiAuthService;
 
 /**
- * TODO クラス名をHTTPつきに
  * User: mkkn
  * Date: 2016/06/25
  * Time: 14:20
  */
-class TokenService
+class HttpTokenService
 {
+    /** @var  TokenServiceInterface */
     protected $token;
 
+    /** @var UserServiceInterface  */
     protected $user;
 
-    /**
-     * TokenService constructor.
-     * @param $token
-     * @param $user
-     */
     public function __construct(
-        TokenServiceInterface $token,
-        UserServiceInterface $user)
-    {
-        $this->token = $token;
-        $this->user = $user;
+        ApiAuthService $apiAuthService
+    ){
+        $this->user = $apiAuthService->user();
+        $this->token = $apiAuthService->token();
     }
 
 
     public function publish(array $credential):Token
     {
         $user = $this->user->loadProfileByCredential($credential);
-        return $this->token->createByUser($user);
+        return $this->token->save($user);
     }
 
 //    public function refresh($token){
@@ -42,7 +38,7 @@ class TokenService
 //
 
     public function delete($token){
-        $this->token->inactive($token);
+        $this->token->delete($token);
     }
 
 }
