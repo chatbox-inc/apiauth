@@ -18,10 +18,9 @@ abstract class ApiAuthServiceProvider extends ServiceProvider
     public function register()
     {
         $app = $this->app;
-        $this->registerAuthRoute($this->app);
 
         if($this->getRouter()){
-
+            $this->registerAuthRoute($app);
         }
 
         $app->singleton("apiauth.user",function(){

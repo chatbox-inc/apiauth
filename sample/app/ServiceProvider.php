@@ -21,7 +21,6 @@ class ServiceProvider extends ApiAuthServiceProvider
         return $this->app;
     }
 
-
     function userServiceFactory():UserServiceInterface
     {
         return new UserTable();
