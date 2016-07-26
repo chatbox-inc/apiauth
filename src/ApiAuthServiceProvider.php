@@ -13,9 +13,17 @@ use Chatbox\ApiAuth\Domains\UserServiceInterface;
  */
 abstract class ApiAuthServiceProvider extends ServiceProvider
 {
+    use RegisterRouteTrait;
+
     public function register()
     {
         $app = $this->app;
+        $this->registerAuthRoute($this->app);
+
+        if($this->getRouter()){
+
+        }
+
         $app->singleton("apiauth.user",function(){
             return $this->userServiceFactory();
         });
@@ -23,6 +31,8 @@ abstract class ApiAuthServiceProvider extends ServiceProvider
             return $this->tokenServieFactory();
         });
     }
+
+    abstract function getRouter();
 
     abstract function userServiceFactory():UserServiceInterface;
 

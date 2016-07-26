@@ -25,7 +25,8 @@
     },
     "require-dev": {
         "laravel/lumen": "^5.2",
-        "chatbox-inc/lumen-providers": "dev-master"
+        "chatbox-inc/lumen-providers": "dev-master",
+        "phpunit/phpunit": "^5.4"
     },
     "scripts":{
         "post-install-cmd": "touch sample/database/database.sqlite"
