@@ -6,9 +6,9 @@ use Illuminate\Support\ServiceProvider;
 
 use Chatbox\ApiAuth\Domains\UserServiceInterface;
 
-
 /**
  * SPの役割は注入できるポイントを提供すること
+ * キーワードDIの経緯などはApiAuthServiceを参照
  *
  */
 abstract class ApiAuthServiceProvider extends ServiceProvider
@@ -23,11 +23,11 @@ abstract class ApiAuthServiceProvider extends ServiceProvider
             $this->registerAuthRoute($router);
         }
 
-        $app->singleton("apiauth.user",function(){
-            return $this->userServiceFactory();
-        });
-        $app->singleton("apiauth.token",function(){
-            return $this->tokenServieFactory();
+        $app->singleton(ApiAuthService::class,function(){
+            return new ApiAuthService(
+                $this->userServiceFactory(),
+                $this->tokenServieFactory()
+            );
         });
     }
 
