@@ -1,0 +1,38 @@
+[2018-04-12 19:43:33] production.ERROR: Symfony\Component\Debug\Exception\FatalThrowableError: Class 'Chatbox\ApiAuth\ApiAuth' not found in /Users/mkkn/work/chatbox.lab/apiauth/vendor/laravel/lumen-framework/src/Application.php:174
+Stack trace:
+#0 /Users/mkkn/work/chatbox.lab/apiauth/tests/app.php(85): Laravel\Lumen\Application->register('Chatbox\\ApiAuth...')
+#1 /Users/mkkn/work/chatbox.lab/apiauth/artisan(18): require('/Users/mkkn/wor...')
+#2 {main} {"exception":"[object] (Symfony\\Component\\Debug\\Exception\\FatalThrowableError(code: 0): Class 'Chatbox\\ApiAuth\\ApiAuth' not found at /Users/mkkn/work/chatbox.lab/apiauth/vendor/laravel/lumen-framework/src/Application.php:174)
+[stacktrace]
+#0 /Users/mkkn/work/chatbox.lab/apiauth/tests/app.php(85): Laravel\\Lumen\\Application->register('Chatbox\\\\ApiAuth...')
+#1 /Users/mkkn/work/chatbox.lab/apiauth/artisan(18): require('/Users/mkkn/wor...')
+#2 {main}
+"} 
+[2018-04-12 19:43:47] production.ERROR: ReflectionException: Class apiauth.drivers.default does not exist in /Users/mkkn/work/chatbox.lab/apiauth/vendor/illuminate/container/Container.php:767
+Stack trace:
+#0 /Users/mkkn/work/chatbox.lab/apiauth/vendor/illuminate/container/Container.php(767): ReflectionClass->__construct('apiauth.drivers...')
+#1 /Users/mkkn/work/chatbox.lab/apiauth/vendor/illuminate/container/Container.php(646): Illuminate\Container\Container->build('apiauth.drivers...')
+#2 /Users/mkkn/work/chatbox.lab/apiauth/vendor/illuminate/container/Container.php(601): Illuminate\Container\Container->resolve('apiauth.drivers...', Array)
+#3 /Users/mkkn/work/chatbox.lab/apiauth/vendor/laravel/lumen-framework/src/Application.php(221): Illuminate\Container\Container->make('apiauth.drivers...', Array)
+#4 /Users/mkkn/work/chatbox.lab/apiauth/vendor/laravel/lumen-framework/src/helpers.php(38): Laravel\Lumen\Application->make('apiauth.drivers...')
+#5 /Users/mkkn/work/chatbox.lab/apiauth/src/ApiAuth.php(30): app('apiauth.drivers...')
+#6 /Users/mkkn/work/chatbox.lab/apiauth/tests/app.php(101): Chatbox\ApiAuth\ApiAuth->driver('default')
+#7 [internal function]: {closure}(Object(Laravel\Lumen\Routing\Router))
+#8 /Users/mkkn/work/chatbox.lab/apiauth/vendor/laravel/lumen-framework/src/Routing/Router.php(62): call_user_func(Object(Closure), Object(Laravel\Lumen\Routing\Router))
+#9 /Users/mkkn/work/chatbox.lab/apiauth/tests/app.php(102): Laravel\Lumen\Routing\Router->group(Array, Object(Closure))
+#10 /Users/mkkn/work/chatbox.lab/apiauth/artisan(18): require('/Users/mkkn/wor...')
+#11 {main} {"exception":"[object] (ReflectionException(code: -1): Class apiauth.drivers.default does not exist at /Users/mkkn/work/chatbox.lab/apiauth/vendor/illuminate/container/Container.php:767)
+[stacktrace]
+#0 /Users/mkkn/work/chatbox.lab/apiauth/vendor/illuminate/container/Container.php(767): ReflectionClass->__construct('apiauth.drivers...')
+#1 /Users/mkkn/work/chatbox.lab/apiauth/vendor/illuminate/container/Container.php(646): Illuminate\\Container\\Container->build('apiauth.drivers...')
+#2 /Users/mkkn/work/chatbox.lab/apiauth/vendor/illuminate/container/Container.php(601): Illuminate\\Container\\Container->resolve('apiauth.drivers...', Array)
+#3 /Users/mkkn/work/chatbox.lab/apiauth/vendor/laravel/lumen-framework/src/Application.php(221): Illuminate\\Container\\Container->make('apiauth.drivers...', Array)
+#4 /Users/mkkn/work/chatbox.lab/apiauth/vendor/laravel/lumen-framework/src/helpers.php(38): Laravel\\Lumen\\Application->make('apiauth.drivers...')
+#5 /Users/mkkn/work/chatbox.lab/apiauth/src/ApiAuth.php(30): app('apiauth.drivers...')
+#6 /Users/mkkn/work/chatbox.lab/apiauth/tests/app.php(101): Chatbox\\ApiAuth\\ApiAuth->driver('default')
+#7 [internal function]: {closure}(Object(Laravel\\Lumen\\Routing\\Router))
+#8 /Users/mkkn/work/chatbox.lab/apiauth/vendor/laravel/lumen-framework/src/Routing/Router.php(62): call_user_func(Object(Closure), Object(Laravel\\Lumen\\Routing\\Router))
+#9 /Users/mkkn/work/chatbox.lab/apiauth/tests/app.php(102): Laravel\\Lumen\\Routing\\Router->group(Array, Object(Closure))
+#10 /Users/mkkn/work/chatbox.lab/apiauth/artisan(18): require('/Users/mkkn/wor...')
+#11 {main}
+"} 
