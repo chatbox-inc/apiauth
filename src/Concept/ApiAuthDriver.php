@@ -33,12 +33,23 @@ class ApiAuthDriver implements \Chatbox\ApiAuth\Drivers\ApiAuthDriver {
 	) {
 		$this->token = $token;
 		$this->user  = $user;
+		app('auth')->viaRequest('api', function ($request) use($user){
+			if ($token = $request->bearerToken()) {
+				return $user->findByToken($token);
+			}
+		});
+
 	}
 
-	public function setGuard($guard){
-		$this->guard = $guard;
+	/**
+	 * @param \Illuminate\Http\Request $request
+	 * @param $next
+	 *
+	 * @return mixed
+	 */
+	public function handle($request, $next ) {
+		return $next($request);
 	}
-
 
 	public function tokenService(): TokenMailService {
 		return $this->token;
@@ -49,7 +60,7 @@ class ApiAuthDriver implements \Chatbox\ApiAuth\Drivers\ApiAuthDriver {
 	}
 
 	public function guard():Guard {
-		return Auth::guard($this->guard);
+		return Auth::guard();
 	}
 
 	public function handleResponse( Response $response ): Response {

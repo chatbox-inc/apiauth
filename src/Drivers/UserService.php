@@ -23,12 +23,10 @@ interface UserService {
 	public function findByCredential($payload);
 
 	/**
-	 * @param $email
-	 * @param $data
-	 *
-	 * @return mixed
+	 * Token でユーザを検索
+	 * @return mixed | null
 	 */
-	public function create($email,$payload);
+	public function findByToken($token);
 
 	/**
 	 * @param $email
@@ -36,12 +34,20 @@ interface UserService {
 	 *
 	 * @return mixed
 	 */
-	public function update($user,$payload);
+	public function createUser($email,$payload);
+
+	/**
+	 * @param $email
+	 * @param $data
+	 *
+	 * @return mixed
+	 */
+	public function updateUser($user,$payload);
 
 	/**
 	 * @return mixed
 	 */
-	public function delete($user);
+	public function deleteUser($user);
 
 	/**
 	 * @param $user
@@ -55,7 +61,7 @@ interface UserService {
 	 *
 	 * @return mixed
 	 */
-	public function changeEmail($user,$payload);
+	public function changeEmail($user,$email);
 
 	/**
 	 * @param $user

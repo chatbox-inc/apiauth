@@ -21,15 +21,10 @@ class ApiAuthMIddleware {
 		$this->apiauth = $apiauth;
 	}
 
-	public function handle( $request, $next,$type ) {
+	public function handle( $request, $next,$type="default" ) {
 
 		$auth = $this->apiauth->setActive($type);
-		try{
-			$response = $next($request);
-			return $auth->handleResponse($response);
-		}catch (Exception $e){
-			throw $auth->handleException($e);
-		}
+		return $auth->handle($request,$next);
 	}
 
 }

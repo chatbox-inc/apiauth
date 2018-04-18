@@ -31,9 +31,9 @@ abstract class TokenMailDriver {
 	 *
 	 * @param $token
 	 */
-	public function __construct(TokenService $token, Mailer $mailer) {
+	public function __construct(TokenService $token) {
 		$this->tokenService = $token;
-		$this->mailer = $mailer;
+		$this->mailer = app("mailer");
 	}
 
 	public function inquery($token):TokenMessageMailable{

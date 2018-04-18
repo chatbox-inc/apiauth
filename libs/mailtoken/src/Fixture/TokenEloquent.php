@@ -1,5 +1,5 @@
 <?php
-namespace Chatbox\MailToken\Guide;
+namespace Chatbox\MailToken\Fixture;
 use Carbon\Carbon;
 use Chatbox\MailToken\Exceptions\TokenNotFoundException;
 use Chatbox\MailToken\Mailable\TokenMessageMailable;
@@ -20,7 +20,17 @@ class TokenEloquent extends Model implements TokenService {
 	use SoftDeletes;
 	use TokenEloquentSchema;
 
-	protected $table = "";
+//	protected $table = "";
+
+	public function getDataAttribute($value)
+	{
+		return unserialize(base64_decode($value));
+	}
+
+	public function setDataAttribute($value)
+	{
+		$this->attributes['data'] = base64_encode(serialize($value));
+	}
 
 	protected function generateToken(string $email,string $type,Carbon $published_at){
 		$seed = json_encode([
@@ -37,10 +47,12 @@ class TokenEloquent extends Model implements TokenService {
 			$tokenModel->touch();
 		}else{
 			$now = Carbon::now();
+			$tokenModel = $this->newInstance();
 			$tokenModel->token = $this->generateToken($email,$type,$now);
 			$tokenModel->email = $email;
 			$tokenModel->type = $type;
 			$tokenModel->data = $data;
+			$tokenModel->save();
 		}
 		return $tokenModel->token;
 
@@ -65,7 +77,6 @@ class TokenEloquent extends Model implements TokenService {
 			return $tokenModel;
 		}
 		throw new TokenNotFoundException();
-
 	}
 
 	/**

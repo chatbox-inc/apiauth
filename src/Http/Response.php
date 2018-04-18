@@ -10,9 +10,9 @@ namespace Chatbox\ApiAuth\Http;
 class Response implements \JsonSerializable {
 
 
-	protected $data;
+	public $data;
 
-	protected $status;
+	public $status;
 
 	/**
 	 * ResponseBody constructor.

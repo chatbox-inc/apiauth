@@ -1,5 +1,5 @@
 <?php
-namespace Chatbox\MailToken\Guide;
+namespace Chatbox\MailToken\Fixture;
 use Carbon\Carbon;
 use Chatbox\MailToken\Exceptions\TokenNotFoundException;
 use Chatbox\MailToken\Mailable\TokenMessageMailable;
@@ -23,13 +23,14 @@ trait TokenEloquentSchema {
 		});
 	}
 
-	public function schema(Blueprint $table){
+	protected function schema(Blueprint $table){
 		$table->increments("id");
 		$table->string("token");
 		$table->string("email");
 		$table->string("type");
 		$table->text("data");
 		$table->timestamps();
+		$table->softDeletes();
 
 		// f(email, type, publish_at_ts ) -> token
 		$table->unique("token");

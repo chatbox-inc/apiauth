@@ -19,9 +19,4 @@ interface Request {
 	public function email():string;
 
 	public function user():array;
-
-
-
-
-
 }

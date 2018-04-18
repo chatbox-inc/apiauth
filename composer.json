@@ -15,6 +15,12 @@
             "Chatbox\\MailToken\\": "./libs/mailtoken/src/"
         }
     },
+    "autoload-dev": {
+        "classmap": [
+            "tests/",
+            "database/"
+        ]
+    },
     "require-dev": {
         "phpstan/phpstan": "^0.10.0@dev",
         "fzaninotto/faker": "~1.4",

@@ -82,7 +82,7 @@ $app->singleton(
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
-$app->register(\Chatbox\ApiAuth\ApiAuth::class);
+$app->register(\Chatbox\ApiAuth\ApiAuthServiceProvider::class);
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes

@@ -19,17 +19,5 @@ interface ApiAuthDriver {
 
 	public function guard():Guard; // 認証中ユーザの取得
 
-	public function handleRequest():Response;
-
-	public function handleResponse(Response $response):Response;
-
-	/**
-	 * Exception Handler に飛ばしたいので、必ずエラーを投げ直す。
-	 * @param \Exception $e
-	 * @throws HttpResponseException
-	 */
-	public function handleException(\Exception $e):\Exception;
-
-
-
+	public function handle($request, $next); //Middleware としての挙動
 }

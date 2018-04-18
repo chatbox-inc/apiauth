@@ -2,7 +2,10 @@
 namespace Chatbox\ApiAuth;
 use Chatbox\ApiAuth\Concept\ApiAuthDriver;
 use Chatbox\ApiAuth\Concept\UserService;
+use Chatbox\ApiAuth\Drivers\Request;
 use Chatbox\MailToken\TokenMailService;
+use Chatbox\MailToken\TokenService;
+use Illuminate\Mail\MailServiceProvider;
 use Illuminate\Support\ServiceProvider;
 use Chatbox\ApiAuth\ApiAuth;
 use Laravel\Lumen\Application;
@@ -22,15 +25,26 @@ class ApiAuthServiceProvider extends ServiceProvider {
 		/** @var Application $app */
 		$app = $this->app;
 
-		$app->routeMiddleware("apiauth",ApiAuthMIddleware::class);
+		$app->configure("mail");
+		$app->register(MailServiceProvider::class);
+
+		$app->singleton(ApiAuth::class);
+		//TODO FIXED
+		$app->singleton(Request::class,\Chatbox\ApiAuth\Concept\Request::class);
+		$app->singleton(TokenService::class,\MailTokenEloquent::class);
+
+		$app->routeMiddleware([
+			"apiauth" => ApiAuthMIddleware::class
+		]);
 	}
 
 	protected function setupByConfig($key,$config){
 		app()->extend(ApiAuth::class,function (ApiAuth $auth)use($key,$config){
-			$token = app($config["token"]??TokenMailService::class);
-			$user = app($config["user"]??UserService::class);
-
-			$auth->setDriver($key,new ApiAuthDriver($token,$user));
+			$auth->setDriver($key,function()use($config){
+				$token = app($config["token"]??TokenMailService::class);
+				$user = app($config["user"]??UserService::class);
+				return new ApiAuthDriver($token,$user);
+			});
 			return $auth;
 		});
 	}

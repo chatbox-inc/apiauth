@@ -1,5 +1,5 @@
 <?php
-namespace Chatbox\ApiAuth\Http\Controllers\Auth;
+namespace Chatbox\ApiAuth\Http\Controllers;
 use Chatbox\ApiAuth\Http\Controllers\ApiAuthControllerTrait;
 
 /**
@@ -58,8 +58,7 @@ class AuthController {
 		$token = $this->mailtoken();
 		$message = $this->tokenService()->changeEmail()->inquery($token);
 		if($message){
-			$payload = $this->credential();
-			$this->userService()->changeEmail($message->getUser(),$payload);
+			$this->userService()->changeEmail($message->getUser(),$message->getTo());
 			return $this->response([]);
 		}
 		throw new \Exception(); //TODO FIXED
