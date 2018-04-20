@@ -1,5 +1,6 @@
 <?php
 namespace Chatbox\ApiAuth\Drivers;
+
 use Chatbox\MailToken\TokenMailService;
 
 /**
@@ -8,15 +9,15 @@ use Chatbox\MailToken\TokenMailService;
  * Date: 2018/04/08
  * Time: 5:11
  */
-interface Request {
+interface Request
+{
+    public function credential():array;
 
-	public function credential():array;
+    public function token():string;
 
-	public function token():string;
+    public function mailtoken():string;
 
-	public function mailtoken():string;
+    public function email():string;
 
-	public function email():string;
-
-	public function user():array;
+    public function user():array;
 }

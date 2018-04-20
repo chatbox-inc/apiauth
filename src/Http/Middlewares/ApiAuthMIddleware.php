@@ -1,5 +1,6 @@
 <?php
 namespace Chatbox\ApiAuth\Http\Middlewares;
+
 use Chatbox\ApiAuth\ApiAuth;
 
 /**
@@ -8,23 +9,23 @@ use Chatbox\ApiAuth\ApiAuth;
  * Date: 2018/04/08
  * Time: 19:25
  */
-class ApiAuthMIddleware {
+class ApiAuthMIddleware
+{
+    protected $apiauth;
 
-	protected $apiauth;
+    /**
+     * ApiAuthMIddleware constructor.
+     *
+     * @param $apiauth
+     */
+    public function __construct(ApiAuth $apiauth)
+    {
+        $this->apiauth = $apiauth;
+    }
 
-	/**
-	 * ApiAuthMIddleware constructor.
-	 *
-	 * @param $apiauth
-	 */
-	public function __construct(ApiAuth $apiauth ) {
-		$this->apiauth = $apiauth;
-	}
-
-	public function handle( $request, $next,$type="default" ) {
-
-		$auth = $this->apiauth->setActive($type);
-		return $auth->handle($request,$next);
-	}
-
+    public function handle($request, $next, $type="default")
+    {
+        $auth = $this->apiauth->setActive($type);
+        return $auth->handle($request, $next);
+    }
 }

@@ -8,41 +8,43 @@
 
 namespace Chatbox\ApiAuth\Concept;
 
+class Request implements \Chatbox\ApiAuth\Drivers\Request
+{
+    protected $request;
+
+    /**
+     * Request constructor.
+     *
+     * @param $request
+     */
+    public function __construct(\Illuminate\Http\Request $request)
+    {
+        $this->request = $request;
+    }
 
 
-class Request implements \Chatbox\ApiAuth\Drivers\Request {
+    public function credential(): array
+    {
+        return $this->request->get("credential", []);
+    }
 
-	protected $request;
+    public function token(): string
+    {
+        return $this->request->header("Authentication", "");
+    }
 
-	/**
-	 * Request constructor.
-	 *
-	 * @param $request
-	 */
-	public function __construct( \Illuminate\Http\Request $request ) {
-		$this->request = $request;
-	}
+    public function mailtoken(): string
+    {
+        return $this->request->get("mailtoken", "");
+    }
 
+    public function email(): string
+    {
+        return $this->request->get("email", "");
+    }
 
-	public function credential(): array {
-		return $this->request->get("credential",[]);
-	}
-
-	public function token(): string {
-		return $this->request->header("Authentication","");
-	}
-
-	public function mailtoken(): string {
-		return $this->request->get("mailtoken","");
-	}
-
-	public function email(): string {
-		return $this->request->get("email","");
-	}
-
-	public function user(): array {
-		return $this->request->get("user",[]);
-	}
-
-
+    public function user(): array
+    {
+        return $this->request->get("user", []);
+    }
 }

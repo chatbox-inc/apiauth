@@ -17,10 +17,10 @@ use Chatbox\ApiAuth\Drivers\ApiAuthDriver;
  * @method static ApiAuthDriver driver(string $name)
  * @method static void route(string $name, $router)
  */
-class ApiAuth extends Facade {
-
-	static public function getFacadeAccessor() {
-		return \Chatbox\ApiAuth\ApiAuth::class;
-	}
-
+class ApiAuth extends Facade
+{
+    public static function getFacadeAccessor()
+    {
+        return \Chatbox\ApiAuth\ApiAuth::class;
+    }
 }
