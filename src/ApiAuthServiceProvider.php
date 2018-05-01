@@ -22,11 +22,13 @@ class ApiAuthServiceProvider extends ServiceProvider {
 	public function register(){
 		$this->setupByConfig("default",[]);
 
-		/** @var Application $app */
+		/** @var \Illuminate\Foundation\Application $app */
 		$app = $this->app;
 
-		$app->configure("mail");
-		$app->register(MailServiceProvider::class);
+		if( str_contains($this->app->version(), 'Lumen')){
+			$app->configure("mail");
+			$app->register(MailServiceProvider::class);
+		}
 
 		$app->singleton(ApiAuth::class);
 		//TODO FIXED
