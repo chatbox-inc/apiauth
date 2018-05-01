@@ -16,35 +16,40 @@ use Chatbox\MailToken\TokenMailService;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Chatbox\ApiAuth\Drivers\Request;
 
-trait ApiAuthControllerTrait {
+trait ApiAuthControllerTrait
+{
+    protected function request():Request
+    {
+        return app(Request::class);
+    }
 
-	protected function request():Request{
-		return app(Request::class);
-	}
+    protected function apiauth():ApiAuthDriver
+    {
+        /** @var ApiAuth $apiAuth */
+        $apiAuth = app(ApiAuth::class);
+        return $apiAuth->active();
+    }
 
-	protected function apiauth():ApiAuthDriver{
-		/** @var ApiAuth $apiAuth */
-		$apiAuth = app(ApiAuth::class);
-		return $apiAuth->active();
-	}
+    protected function tokenService():TokenMailService
+    {
+        return $this->apiauth()->tokenService();
+    }
 
-	protected function tokenService():TokenMailService{
-		return $this->apiauth()->tokenService();
-	}
+    protected function userService():UserService
+    {
+        return $this->apiauth()->userService();
+    }
 
-	protected function userService():UserService{
-		return $this->apiauth()->userService();
-	}
+    protected function authenUser():Authenticatable
+    {
+        // TODO FIXED
+        return $this->apiauth()->guard()->user();
 
-	protected function authenUser():Authenticatable{
-		// TODO FIXED
-		return $this->apiauth()->guard()->user();
+        throw new \Exception("非認証時にはそれなりのエラーを投げる");
+    }
 
-		throw new \Exception("非認証時にはそれなりのエラーを投げる");
-	}
-
-	protected function response($data,$status = 200):Response{
-		return new Response($data,$status);
-	}
-
+    protected function response($data, $status = 200):Response
+    {
+        return new Response($data, $status);
+    }
 }
