@@ -12,8 +12,6 @@ class ExampleTest extends TestCase
      */
     public function testExample()
     {
-//        $this->get('/');
-
         $this->assertEquals( true, true
 //            $this->app->version(), $this->response->getContent()
         );

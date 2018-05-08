@@ -12,7 +12,7 @@ class InvitationTest extends TestCase
      *
      * @return void
      */
-    public function testInvitation()
+    protected function testInvitation()
     {
     	\Illuminate\Support\Facades\Mail::fake();
     	$email = str_random()."@chatbox-inc.com";
