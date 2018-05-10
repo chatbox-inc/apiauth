@@ -1,6 +1,7 @@
 <?php
 namespace Chatbox\ApiAuth\Http\Controllers;
 
+use Chatbox\ApiAuth\Mail\InviteMailMailable;
 use Chatbox\ApiAuth\Mail\TokenMailMailable;
 use Chatbox\MailToken\Drivers\ChangeEmailMailDriver;
 use Chatbox\ApiAuth\Mail\TokenMailService;
@@ -45,7 +46,7 @@ class MailController
     {
 	    $token = $this->mailtoken();
 	    $message = $this->mail->inquery($token);
-	    if($message->isTypeOf($type)){
+	    if($message && $message->isTypeOf($type)){
 		    return $this->response([
 			    "message" => $message
 		    ]);
@@ -70,6 +71,8 @@ class MailController
         $user = $this->userService()->findByEmail($email);
         if (!$user) {
             $message = $this->message("invite");
+            assert($message instanceof InviteMailMailable);
+            $message->setTargetAddress($email);
             $message = $this->mail->send($message);
             return $this->response([
                 "message" => $message

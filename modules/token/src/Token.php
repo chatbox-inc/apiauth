@@ -2,6 +2,7 @@
 namespace Chatbox\Token;
 use Carbon\Carbon;
 use Chatbox\MailToken\Mailable\TokenMessageMailable;
+use Illuminate\Queue\SerializesModels;
 
 /**
  * トークン本体
@@ -10,6 +11,8 @@ use Chatbox\MailToken\Mailable\TokenMessageMailable;
  * Time: 4:00
  */
 class Token {
+
+	use SerializesModels;
 
 	public $token;
 

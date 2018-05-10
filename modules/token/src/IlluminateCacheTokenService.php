@@ -32,7 +32,7 @@ class IlluminateCacheTokenService implements TokenService {
 		if ($this->cache->has($token->token)) {
 			throw new \Exception("invalid token already used");
 		}
-		$this->cache->put($token->token,$token);
+		$this->cache->forever($token->token,$token);
 		return $token;
 	}
 
@@ -42,8 +42,9 @@ class IlluminateCacheTokenService implements TokenService {
 	}
 
 	public function inquery( Token $token ): ?Token {
-		$token = $this->cache->get($token->token);
-		return $token;
+		$_token = $this->cache->get($token->token);
+		$_token = $_token;
+		return $_token;
 	}
 
 

@@ -27,40 +27,27 @@ class ApiAuthServiceProvider extends ServiceProvider
 		/** @var \Illuminate\Foundation\Application $app */
 		$app = $this->app;
 
-		if( str_contains($this->app->version(), 'Lumen')){
-			$app->configure("mail");
-			$app->register(MailServiceProvider::class);
-			$app->routeMiddleware([
-				"apiauth" => ApiAuthMIddleware::class
-			]);
-		}else{
-			$router = app("router");
-			$router->aliasMiddleware("apiauth",ApiAuthMIddleware::class);
+		$router = app("router");
+		$router->aliasMiddleware("apiauth",ApiAuthMIddleware::class);
 
-		}
+	    # Setup singleton
+	    $app->singleton(ApiAuth::class,function(){
+		    return new ApiAuth($this->app);
+	    });
 
-	    $app->singleton(ApiAuth::class);
-
-	    foreach ( config( "apiauth.drivers" ,[
-	    	"default" => []
-	    ]) as $key => $config ) {
-		    $this->setupByConfig($key, $config);
-		}
-		$request = config("apiauth.request",\Chatbox\ApiAuth\Concept\Request::class);
-	    $app->singleton(Request::class, $request);
-
-	    $token = config("apiauth.token",\MailTokenEloquent::class);
-	    $app->singleton(TokenService::class, $token);
-    }
-
-    protected function setupByConfig($key, $config)
-    {
-        app()->extend(ApiAuth::class, function (ApiAuth $auth) use ($key,$config) {
-            $auth->setDriver($key, function () use ($config) {
-                $user = app($config["user"]??UserService::class);
-                return new ApiAuthDriver($user);
-            });
-            return $auth;
-        });
+	    $defaultConfig = [
+		    "default" => function(){
+			    return new ApiAuthDriver(
+				    app(UserService::class),
+				    app(\Chatbox\ApiAuth\Mail\TokenMailService::class )
+			    );
+		    }
+	    ];
+	    foreach ( config( "apiauth.drivers" ,$defaultConfig) as $key => $config ) {
+		    app()->extend(ApiAuth::class, function (ApiAuth $auth) use ($key,$config) {
+			    $auth->extendWithConfig($key,$config);
+			    return $auth;
+		    });
+	    }
     }
 }

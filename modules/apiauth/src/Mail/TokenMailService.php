@@ -41,12 +41,12 @@ class TokenMailService {
 		$this->tokenService = $tokenMail;
 	}
 
-	public function inquery(string $token):TokenMailMailable{
+	public function inquery(string $token):?TokenMailMailable{
 		$token = $this->tokenService->inquery($token);
-		if($token->data instanceof TokenMailMailable){
+		if($token && $token->data instanceof TokenMailMailable){
 			return $token->data;
 		}
-		throw new \RuntimeException("invalid token data for $token");
+		return null;
 	}
 
 	public function redeem($token):TokenMailMailable{

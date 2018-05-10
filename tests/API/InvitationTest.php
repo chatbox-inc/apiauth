@@ -39,5 +39,9 @@ class InvitationTest extends TestCase
 
     	Request::inquery_invite($message->token())->run();
 	    $message = $this->response()->isOK();
+	    $message = $this->response()->get("message");
+	    assert($message instanceof TokenMailMailable);
+
+	    $this->assertTrue(true);
     }
 }

@@ -14,4 +14,11 @@ use Illuminate\Mail\Mailable;
 class InviteMailMailable extends TokenMailMailable {
 
 	protected $type = "invite";
+
+	public $targetAddress;
+
+	public function setTargetAddress($email){
+		$this->targetAddress = $email;
+		$this->to($email);
+	}
 }

@@ -1,5 +1,6 @@
 <?php
 namespace Chatbox\ApiAuth\Http\Controllers;
+use Chatbox\ApiAuth\Mail\TokenMailService;
 
 /**
  * Created by PhpStorm.
@@ -11,7 +12,16 @@ class ProfileController
 {
     use ApiAuthControllerTrait;
 
-    public function me()
+	/**
+	 * MailController constructor.
+	 *
+	 * @param $mail
+	 */
+	public function __construct(TokenMailService $mail ) {
+		$this->mail = $mail;
+	}
+
+	public function me()
     {
         $user = $this->authenUser();
         return $this->response([
@@ -23,10 +33,10 @@ class ProfileController
     {
         $token = $this->request()->mailtoken();
 
-        $message = $this->apiauth()->mailHandler("invite")->inquery($token);
-        if ($message) {
+        $message = $this->mail->inquery($token);
+        if ($message && $message->isTypeOf("invite")) {
             $userPayload = $this->request()->user();
-            $user = $this->userService()->createUser($message->getTo(), $userPayload);
+            $user = $this->userService()->createUser($message->targetAddress, $userPayload);
             return $this->response([
                 "user" => $user
             ]);

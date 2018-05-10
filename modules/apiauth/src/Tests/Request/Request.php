@@ -1,5 +1,8 @@
 <?php
 namespace Chatbox\ApiAuth\Tests\Request;
+use Illuminate\Auth\RequestGuard;
+use Illuminate\Support\Facades\Auth;
+
 /**
  * Created by PhpStorm.
  * User: mkkn
@@ -12,6 +15,8 @@ class Request {
 	static public $runner;
 
 	use MailEntries;
+	use UserEntries;
+	use AuthEntries;
 
 	public function run(){
 		return call_user_func(static::$runner,$this);

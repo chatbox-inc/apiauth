@@ -16,6 +16,11 @@ class Apiauth extends Migration
     	/** @var \Illuminate\Database\DatabaseManager $db */
     	$db = app("db");
     	app(MailTokenEloquent::class)->up($db->getSchemaBuilder());
+	    Schema::create('cache', function ($table) {
+		    $table->string('key')->unique();
+		    $table->text('value');
+		    $table->integer('expiration');
+	    });
     }
 
     /**
@@ -28,5 +33,6 @@ class Apiauth extends Migration
 	    /** @var \Illuminate\Database\DatabaseManager $db */
 	    $db = app("db");
 	    app(MailTokenEloquent::class)->down($db->getSchemaBuilder());
+	    Schema::dropIfExists("cache");
     }
 }

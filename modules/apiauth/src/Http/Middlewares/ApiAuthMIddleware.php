@@ -2,8 +2,6 @@
 namespace Chatbox\ApiAuth\Http\Middlewares;
 
 use Chatbox\ApiAuth\ApiAuth;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Http\Response;
 
 /**
  * Created by PhpStorm.
@@ -29,14 +27,6 @@ class ApiAuthMIddleware
     {
         $this->apiauth->setActive($type);
         $auth = $this->apiauth->active();
-        try {
-        	return $auth->handle($request, $next);
-        }catch (\Exception $e){
-        	dd($e);
-        	$response = Response::create([
-        		"errors" => $e->getMessage(),
-	        ],500);
-        	throw new HttpResponseException($response);
-        }
+        return $auth->handle($request, $next);
     }
 }

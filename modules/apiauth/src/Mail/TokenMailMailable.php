@@ -2,6 +2,7 @@
 namespace Chatbox\ApiAuth\Mail;
 
 use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
 
 /**
  * 各種メールテンプレートの原型
@@ -13,6 +14,8 @@ use Illuminate\Mail\Mailable;
  * Time: 16:19
  */
 abstract class TokenMailMailable extends Mailable {
+
+	use SerializesModels;
 
 	protected $type;
 
@@ -35,11 +38,10 @@ abstract class TokenMailMailable extends Mailable {
 	}
 
 	public function token(){
-		if($this->token){
-			return $this->token;
-		}else{
+		if(!$this->token){
 			$this->token = sha1(mt_rand(0,9999999999));
 		}
+		return $this->token;
 	}
 
 	public function build()

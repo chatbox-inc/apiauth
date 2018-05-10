@@ -35,7 +35,7 @@ class Request implements \Chatbox\ApiAuth\Drivers\Request
 
     public function mailtoken(): string
     {
-        return $this->request->get("mailtoken", "");
+        return $this->request->get("mail_token", "");
     }
 
     public function email(): string
