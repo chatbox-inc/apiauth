@@ -17,14 +17,13 @@ jobs: # a collection of steps
       - run: sudo apt install -y libsqlite3-dev zlib1g-dev
       - run: sudo docker-php-ext-install zip
       - run: sudo composer self-update
-      - run: touch composer.lock
       - restore_cache: # special step to restore the dependency cache if `composer.lock` does not change
           keys:
-            - composer-v1-{{ checksum "composer.lock" }}
+            - composer-v1-{{ checksum "composer.json" }}
             - composer-v1-
-      - run: composer install -n --prefer-dist
+      - run: composer install
       - save_cache: # special step to save the dependency cache with the `composer.lock` cache key template
-          key: composer-v1-{{ checksum "composer.lock" }}
+          key: composer-v1-{{ checksum "composer.json" }}
           paths:
             - vendor
 #      - restore_cache: # special step to restore the dependency cache if `package.json` does not change
