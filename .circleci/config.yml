@@ -17,6 +17,7 @@ jobs: # a collection of steps
       - run: sudo apt install -y libsqlite3-dev zlib1g-dev
       - run: sudo docker-php-ext-install zip
       - run: sudo composer self-update
+      - run: touch composer.lock
       - restore_cache: # special step to restore the dependency cache if `composer.lock` does not change
           keys:
             - composer-v1-{{ checksum "composer.lock" }}
@@ -35,7 +36,7 @@ jobs: # a collection of steps
 #          key: node-v1-{{ checksum "package.json" }}
 #          paths:
 #            - node_modules
-      - run: touch datagbase/testing.sqlite
+      - run: touch database/database.sqlite
       - run: php artisan migrate
       - run: ./vendor/bin/phpunit test
       # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
