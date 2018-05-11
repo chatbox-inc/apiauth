@@ -21,10 +21,10 @@ trait AuthEntries {
 		return new static("/auth/logout","POST");
 	}
 
-	static public function auth_reset_pass($mailToken,$password):Request{
+	static public function auth_reset_pass($mailToken,$credential):Request{
 		return new static("/auth/reset_pass","POST",[
 			"mail_token" => $mailToken,
-			"password" => $password
+			"credential" => $credential
 		]);
 	}
 

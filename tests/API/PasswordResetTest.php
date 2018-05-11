@@ -5,13 +5,16 @@ use Chatbox\ApiAuth\Mail\TokenMailMailable;
 use Chatbox\ApiAuth\Tests\Request\LumenTestTrait;
 use Chatbox\ApiAuth\Tests\Request\Request;
 use Chatbox\ApiAuth\Tests\Response;
+use Chatbox\ApiAuth\Tests\Scenario\PasswordResetScenario;
 use Chatbox\ApiAuth\Tests\Scenario\ProfileScenario;
+use Illuminate\Support\Str;
 use TestCase;
 
-class ProfileTest extends TestCase
+class PasswordResetTest extends TestCase
 {
 	use LumenTestTrait;
 	use ProfileScenario;
+	use PasswordResetScenario;
 
 	protected $baseUrl = "http://localhost/api";
 
@@ -20,7 +23,7 @@ class ProfileTest extends TestCase
      *
      * @return void
      */
-    public function test登録のチェック()
+    public function test登録を実施しトークンを作成()
     {
     	$credential = [
     		"email" => str_random()."@chatbox-inc.com",
@@ -37,34 +40,39 @@ class ProfileTest extends TestCase
 	    $userFetched = $this->response()->isOK()->et()->user();
 	    assert($user["name"] === $userFetched["name"]);
 	    $this->assertTrue(true);
-	    return $token;
-
-
-    }
-
-	/**
-	 * @param $token
-	 * @depends test登録のチェック
-	 */
-    public function test更新系のテスト($token){
-    	$this->login($token);
-	    $userUpdated = [
-		    "name" => "piyopiyo",
+	    return [
+	    	"credential" => $credential,
+		    "token" => $token
 	    ];
-	    $this->scenarioUpdateUser($userUpdated);
-	    Request::profile()->run();
-	    $userFetched = $this->response()->isOK()->et()->user();
-	    assert($userUpdated["name"] === $userFetched["name"]);
+    }
+
+	/**
+	 * @param $token
+	 * @depends test登録を実施しトークンを作成
+	 */
+    public function testパスワードリセットの実施($chunk){
+    	$token = $chunk["token"];
+    	$credential = $chunk["credential"];
+    	$this->login($token);
+	    $token = $this->scenarioSendPasswordResetMail();
+
+	    $credential["password"] = Str::random();
+
+	    $this->scenarioPasswordReset($token,$credential);
 	    $this->assertTrue(true);
     }
 
 	/**
 	 * @param $token
-	 * @depends test登録のチェック
+	 * @depends test登録を実施しトークンを作成
 	 */
-    public function test削除系のテスト($token){
-    	$this->login($token);
-	    $this->scenarioDeleteUser();
+    public function testパスワードリセットの実施2($chunk){
+    	$credential = $chunk["credential"];
+
+	    $token = $this->scenarioSendPasswordResetMail($credential["email"]);
+	    $credential["password"] = Str::random();
+	    $this->scenarioPasswordReset($token,$credential);
 	    $this->assertTrue(true);
     }
+
 }

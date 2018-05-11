@@ -3,14 +3,8 @@ namespace Chatbox\ApiAuth;
 
 use Chatbox\ApiAuth\Concept\ApiAuthDriver;
 use Chatbox\ApiAuth\Concept\UserService;
-use Chatbox\ApiAuth\Drivers\Request;
-use Chatbox\MailToken\TokenMailService;
-use Chatbox\MailToken\TokenService;
-use Illuminate\Mail\MailServiceProvider;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
-use Chatbox\ApiAuth\ApiAuth;
-use Laravel\Lumen\Application;
 use Chatbox\ApiAuth\Http\Middlewares\ApiAuthMIddleware;
 
 /**

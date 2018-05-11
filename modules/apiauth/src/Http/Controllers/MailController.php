@@ -1,9 +1,10 @@
 <?php
 namespace Chatbox\ApiAuth\Http\Controllers;
 
+use Chatbox\ApiAuth\Mail\ChangeEmailMailMailable;
 use Chatbox\ApiAuth\Mail\InviteMailMailable;
+use Chatbox\ApiAuth\Mail\PasswordResetMailMailable;
 use Chatbox\ApiAuth\Mail\TokenMailMailable;
-use Chatbox\MailToken\Drivers\ChangeEmailMailDriver;
 use Chatbox\ApiAuth\Mail\TokenMailService;
 
 /**
@@ -57,7 +58,7 @@ class MailController
 
     public function send($type)
     {
-	    $type = ucfirst(strtolower($type));
+	    $type = ucfirst(strtolower(str_replace("_","",$type)));
 	    if(is_callable([$this,"send{$type}"])){
 		    return $this->{"send{$type}"}();
 	    }else{
@@ -82,17 +83,41 @@ class MailController
         }
     }
 
-    protected function sendChange_email()
+    protected function sendResetpass()
     {
-	    $email = $this->email();
-        $user = $this->userService()->findByEmail($email);
+	    $user = $this->apiauth()->guard()->user();
+    	if(! $user ){
+	        $email = $this->email();
+	        $user = $this->userService()->findByEmail($email);
+	    }
         if ($user) {
-            $message = $this->driver("reset_pass")->sendMail($email, $user);
+            $message = $this->message("reset_pass");
+            assert($message instanceof PasswordResetMailMailable);
+            $message->setUser($user);
+            $message = $this->mail->send($message);
             return $this->response([
                 "message" => $message
             ]);
         } else {
             return abort(403);
         }
+    }
+
+    protected function sendChangeemail()
+    {
+	    $email = $this->email();
+	    $user = $this->apiauth()->guard()->user();
+	    if ($user) {
+		    $message = $this->message("change_email");
+		    assert($message instanceof ChangeEmailMailMailable);
+		    $message->setUser($user);
+		    $message->setTargetAddress($email);
+		    $message = $this->mail->send($message);
+		    return $this->response([
+			    "message" => $message
+		    ]);
+	    } else {
+		    return abort(403);
+	    }
     }
 }

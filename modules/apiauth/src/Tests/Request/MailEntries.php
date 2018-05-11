@@ -28,7 +28,17 @@ trait MailEntries {
 		]);
 	}
 
-	static public function send_reset_pass():Request{
-		return new static("/mail/reset_pass","POST");
+	static public function inquery_change_email($token):Request{
+		return new static("/mail/change_email?mail_token=$token","GET");
 	}
+
+	static public function send_reset_pass($email=null):Request{
+		$params = $email ? ["email" => $email] : [];
+		return new static("/mail/reset_pass","POST",$params);
+	}
+
+	static public function inquery_reset_pass($token):Request{
+		return new static("/mail/reset_pass?mail_token=$token","GET");
+	}
+
 }

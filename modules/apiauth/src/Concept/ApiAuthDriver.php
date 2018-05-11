@@ -3,7 +3,9 @@ namespace Chatbox\ApiAuth\Concept;
 
 use Chatbox\ApiAuth\Drivers\Request;
 use Chatbox\ApiAuth\Drivers\UserService;
+use Chatbox\ApiAuth\Mail\ChangeEmailMailMailable;
 use Chatbox\ApiAuth\Mail\InviteMailMailable;
+use Chatbox\ApiAuth\Mail\PasswordResetMailMailable;
 use Chatbox\ApiAuth\Mail\TokenMailService;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Response;
@@ -81,6 +83,10 @@ class ApiAuthDriver implements \Chatbox\ApiAuth\Drivers\ApiAuthDriver
 			return $config;
 		}elseif($type === "invite" && is_string($config)){
 			return new InviteMailMailable($config);
+		}elseif($type === "reset_pass" && is_string($config)){
+			return new PasswordResetMailMailable($config);
+		}elseif($type === "change_email" && is_string($config)){
+			return new ChangeEmailMailMailable($config);
 		}
 		throw new \Exception("invalid type");
 	}

@@ -2,6 +2,9 @@
 namespace Chatbox\ApiAuth\Http\Controllers;
 
 use Chatbox\ApiAuth\Http\Controllers\ApiAuthControllerTrait;
+use Chatbox\ApiAuth\Mail\ChangeEmailMailMailable;
+use Chatbox\ApiAuth\Mail\PasswordResetMailMailable;
+use Chatbox\ApiAuth\Mail\TokenMailService;
 
 /**
  * Created by PhpStorm.
@@ -12,6 +15,17 @@ use Chatbox\ApiAuth\Http\Controllers\ApiAuthControllerTrait;
 class AuthController
 {
     use ApiAuthControllerTrait;
+
+	protected $mail;
+
+	/**
+	 * MailController constructor.
+	 *
+	 * @param $mail
+	 */
+	public function __construct(TokenMailService $mail ) {
+		$this->mail = $mail;
+	}
 
     protected function credential()
     {
@@ -52,10 +66,10 @@ class AuthController
     public function reset_pass()
     {
         $token = $this->mailtoken();
-        $message = $this->apiauth()->mailHandler("reset_pass")->inquery($token);
-        if ($message) {
+        $message = $this->mail->inquery($token);
+        if ($message instanceof PasswordResetMailMailable) {
             $payload = $this->credential();
-            $this->userService()->resetPass($message->getUser(), $payload);
+            $this->userService()->resetPass($message->user, $payload);
             return $this->response([]);
         }
         throw new \Exception(); //TODO FIXED
@@ -63,12 +77,12 @@ class AuthController
 
     public function change_email()
     {
-        $token = $this->mailtoken();
-        $message = $this->apiauth()->mailHandler("change_email")->inquery($token);
-        if ($message) {
-            $this->userService()->changeEmail($message->getUser(), $message->getTo());
-            return $this->response([]);
-        }
-        throw new \Exception(); //TODO FIXED
+	    $token = $this->mailtoken();
+	    $message = $this->mail->inquery($token);
+	    if ($message instanceof ChangeEmailMailMailable) {
+		    $this->userService()->changeEmail($message->user, $message->targetAddress);
+		    return $this->response([]);
+	    }
+	    throw new \Exception(); //TODO FIXED
     }
 }

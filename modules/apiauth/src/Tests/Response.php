@@ -1,5 +1,8 @@
 <?php
 namespace Chatbox\ApiAuth\Tests;
+use Chatbox\ApiAuth\Mail\TokenMailMailable;
+use Chatbox\Token\Token;
+
 /**
  * Created by PhpStorm.
  * User: mkkn
@@ -52,12 +55,22 @@ class Response {
 		return $this->has("user");
 	}
 
-	public function message(){
-		return $this->get("message");
+	public function message():TokenMailMailable{
+		$message = $this->get("message");
+		assert($message instanceof TokenMailMailable);
+		return $message;
 	}
 
 	public function hasMessage(){
 		return $this->has("message");
+	}
+
+	public function token(){
+		return $this->get("token");
+	}
+
+	public function hasToken(){
+		return $this->has("token");
 	}
 
 
