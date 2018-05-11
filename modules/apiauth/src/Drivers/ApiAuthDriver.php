@@ -1,6 +1,7 @@
 <?php
 namespace Chatbox\ApiAuth\Drivers;
 
+use Chatbox\ApiAuth\Mail\TokenMailMailable;
 use Chatbox\ApiAuth\Mail\TokenMailService;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -23,5 +24,5 @@ interface ApiAuthDriver
 
     public function request():Request;
 
-	public function message($type):Mailable;
+    public function message($type):TokenMailMailable;
 }

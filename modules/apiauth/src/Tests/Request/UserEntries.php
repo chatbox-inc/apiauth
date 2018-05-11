@@ -8,27 +8,30 @@
 
 namespace Chatbox\ApiAuth\Tests\Request;
 
+trait UserEntries
+{
+    public static function profile():Request
+    {
+        return new static("/profile","GET");
+    }
 
-trait UserEntries {
+    public static function profile_register($user, $token):Request
+    {
+        return new static("/profile","POST",[
+            "user" => $user,
+            "mail_token" => $token
+        ]);
+    }
 
-	static public function profile():Request{
-		return new static("/profile","GET");
-	}
+    public static function profile_update($user):Request
+    {
+        return new static("/profile","PATCH",[
+            "user" => $user
+        ]);
+    }
 
-	static public function profile_register($user,$token):Request{
-		return new static("/profile","POST",[
-			"user" => $user,
-			"mail_token" => $token
-		]);
-	}
-
-	static public function profile_update($user):Request{
-		return new static("/profile","PATCH",[
-			"user" => $user
-		]);
-	}
-
-	static public function profile_delete():Request{
-		return new static("/profile","DELETE");
-	}
+    public static function profile_delete():Request
+    {
+        return new static("/profile","DELETE");
+    }
 }

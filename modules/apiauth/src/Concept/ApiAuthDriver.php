@@ -6,6 +6,7 @@ use Chatbox\ApiAuth\Drivers\UserService;
 use Chatbox\ApiAuth\Mail\ChangeEmailMailMailable;
 use Chatbox\ApiAuth\Mail\InviteMailMailable;
 use Chatbox\ApiAuth\Mail\PasswordResetMailMailable;
+use Chatbox\ApiAuth\Mail\TokenMailMailable;
 use Chatbox\ApiAuth\Mail\TokenMailService;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Response;
@@ -27,9 +28,9 @@ class ApiAuthDriver implements \Chatbox\ApiAuth\Drivers\ApiAuthDriver
     protected $guard;
 
     protected $mailConfig = [
-    	"invite" => "mail.invite",
-    	"reset_pass" => "mail.reset_pass",
-    	"change_email" => "mail.change_email",
+        "invite" => "mail.invite",
+        "reset_pass" => "mail.reset_pass",
+        "change_email" => "mail.change_email",
     ];
 
     /**
@@ -41,7 +42,7 @@ class ApiAuthDriver implements \Chatbox\ApiAuth\Drivers\ApiAuthDriver
      */
     public function __construct(
         UserService $user,
-		TokenMailService $token_mail_service
+        TokenMailService $token_mail_service
     ) {
         $this->user  = $user;
         app('auth')->viaRequest('api', function ($request) use ($user) {
@@ -59,15 +60,16 @@ class ApiAuthDriver implements \Chatbox\ApiAuth\Drivers\ApiAuthDriver
      */
     public function handle($request, $next)
     {
-    	$res = $next($request);
+        $res = $next($request);
         return $res;
     }
 
-	public function request(): Request {
-    	return app(\Chatbox\ApiAuth\Concept\Request::class);
-	}
+    public function request(): Request
+    {
+        return app(\Chatbox\ApiAuth\Concept\Request::class);
+    }
 
-	public function userService(): UserService
+    public function userService(): UserService
     {
         return $this->user;
     }
@@ -77,17 +79,18 @@ class ApiAuthDriver implements \Chatbox\ApiAuth\Drivers\ApiAuthDriver
         return Auth::guard();
     }
 
-	public function message( $type ):Mailable {
-		$config = array_get($this->mailConfig,$type);
-		if($config instanceof Mailable){
-			return $config;
-		}elseif($type === "invite" && is_string($config)){
-			return new InviteMailMailable($config);
-		}elseif($type === "reset_pass" && is_string($config)){
-			return new PasswordResetMailMailable($config);
-		}elseif($type === "change_email" && is_string($config)){
-			return new ChangeEmailMailMailable($config);
-		}
-		throw new \Exception("invalid type");
-	}
+    public function message($type):TokenMailMailable
+    {
+        $config = array_get($this->mailConfig, $type);
+        if ($config instanceof TokenMailMailable) {
+            return $config;
+        } elseif ($type === "invite" && is_string($config)) {
+            return new InviteMailMailable($config);
+        } elseif ($type === "reset_pass" && is_string($config)) {
+            return new PasswordResetMailMailable($config);
+        } elseif ($type === "change_email" && is_string($config)) {
+            return new ChangeEmailMailMailable($config);
+        }
+        throw new \Exception("invalid type");
+    }
 }

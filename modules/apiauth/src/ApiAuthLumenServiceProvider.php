@@ -18,40 +18,40 @@ class ApiAuthLumenServiceProvider extends ServiceProvider
 {
     public function register()
     {
-    	/** @var Application $app */
-		$app = $this->app;
+        /** @var Application $app */
+        $app = $this->app;
 
-		# Setup Mail ( Lumen doesnt have it
-		$app->configure("mail");
-		$app->register(MailServiceProvider::class);
+        # Setup Mail ( Lumen doesnt have it
+        $app->configure("mail");
+        $app->register(MailServiceProvider::class);
 
-		# Register Route Middleware ( To use middleware param
-		$app->routeMiddleware([
-			"apiauth" => ApiAuthMIddleware::class
-		]);
+        # Register Route Middleware ( To use middleware param
+        $app->routeMiddleware([
+            "apiauth" => ApiAuthMIddleware::class
+        ]);
 
-		# Globals
+        # Globals
 
 
 
-		# Setup singleton
-	    $app->singleton(ApiAuth::class,function(){
-	    	return new ApiAuth($this->app);
-	    });
+        # Setup singleton
+        $app->singleton(ApiAuth::class, function () {
+            return new ApiAuth($this->app);
+        });
 
-	    $defaultConfig = [
-		    "default" => function(){
-			    return new ApiAuthDriver(
-				    app(UserService::class),
-				    app(\Chatbox\ApiAuth\Mail\TokenMailService::class )
-			    );
-		    }
-	    ];
-	    foreach ( config( "apiauth.drivers" ,$defaultConfig) as $key => $config ) {
-		    app()->extend(ApiAuth::class, function (ApiAuth $auth) use ($key,$config) {
-			    $auth->extendWithConfig($key,$config);
-			    return $auth;
-		    });
-		}
+        $defaultConfig = [
+            "default" => function () {
+                return new ApiAuthDriver(
+                    app(UserService::class),
+                    app(\Chatbox\ApiAuth\Mail\TokenMailService::class)
+                );
+            }
+        ];
+        foreach (config("apiauth.drivers", $defaultConfig) as $key => $config) {
+            app()->extend(ApiAuth::class, function (ApiAuth $auth) use ($key,$config) {
+                $auth->extendWithConfig($key, $config);
+                return $auth;
+            });
+        }
     }
 }

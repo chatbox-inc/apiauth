@@ -8,7 +8,6 @@
 
 namespace Chatbox\ApiAuth\Mail;
 
-
 use Chatbox\MailToken\Mailable\TokenMessageMailable;
 use Chatbox\Token\Token;
 use Chatbox\Token\TokenService;
@@ -30,39 +29,43 @@ use Chatbox\Token\Mail\TokenMailService as BaseTokenMailService;
  *
  * @package Chatbox\ApiAuth\Mail
  */
-class TokenMailService {
+class TokenMailService
+{
 
-	/**
-	 * TokenMailConfiguration constructor.
-	 *
-	 * @param $token
-	 */
-	public function __construct(BaseTokenMailService $tokenMail) {
-		$this->tokenService = $tokenMail;
-	}
+    /**
+     * TokenMailConfiguration constructor.
+     *
+     * @param $token
+     */
+    public function __construct(BaseTokenMailService $tokenMail)
+    {
+        $this->tokenService = $tokenMail;
+    }
 
-	public function inquery(string $token):?TokenMailMailable{
-		$token = $this->tokenService->inquery($token);
-		if($token && $token->data instanceof TokenMailMailable){
-			return $token->data;
-		}
-		return null;
-	}
+    public function inquery(string $token):?TokenMailMailable
+    {
+        $token = $this->tokenService->inquery($token);
+        if ($token && $token->data instanceof TokenMailMailable) {
+            return $token->data;
+        }
+        return null;
+    }
 
-	public function redeem($token):TokenMailMailable{
-		$token = $this->tokenService->redeem(new Token($token));
-		if($token->data instanceof TokenMailMailable){
-			return $token->data;
-		}
-		throw new \RuntimeException("invalid token data for $token");
-	}
+    public function redeem($token):TokenMailMailable
+    {
+        $token = $this->tokenService->redeem(new Token($token));
+        if ($token->data instanceof TokenMailMailable) {
+            return $token->data;
+        }
+        throw new \RuntimeException("invalid token data for $token");
+    }
 
-	public function send(TokenMailMailable $message):TokenMailMailable{
-		$token = $this->tokenService->send($message,$message->token());
-		if($token->data instanceof TokenMailMailable){
-			return $token->data;
-		}
-		throw new \RuntimeException("invalid token data for $token");
-	}
-
+    public function send(TokenMailMailable $message):TokenMailMailable
+    {
+        $token = $this->tokenService->send($message, $message->token());
+        if ($token->data instanceof TokenMailMailable) {
+            return $token->data;
+        }
+        throw new \RuntimeException("invalid token data for $token");
+    }
 }

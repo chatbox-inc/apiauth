@@ -11,13 +11,14 @@ use Illuminate\Mail\Mailable;
  * Date: 2018/04/08
  * Time: 16:19
  */
-class PasswordResetMailMailable extends TokenMailMailable {
+class PasswordResetMailMailable extends TokenMailMailable
+{
+    protected $type = "reset_pass";
 
-	protected $type = "reset_pass";
+    public $user;
 
-	public $user;
-
-	public function setUser($user){
-		$this->user = $user;
-	}
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
 }

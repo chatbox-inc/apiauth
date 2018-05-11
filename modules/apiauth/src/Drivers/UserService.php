@@ -31,17 +31,11 @@ interface UserService
     public function findByToken($token);
 
     /**
-     * @param $email
-     * @param $data
-     *
      * @return mixed
      */
     public function createUser($email, $payload);
 
     /**
-     * @param $email
-     * @param $data
-     *
      * @return mixed
      */
     public function updateUser($user, $payload);
@@ -52,29 +46,21 @@ interface UserService
     public function deleteUser($user);
 
     /**
-     * @param $user
-     *
      * @return mixed
      */
     public function resetPass($user, $payload);
 
     /**
-     * @param $user
-     *
      * @return mixed
      */
     public function changeEmail($user, $email);
 
     /**
-     * @param $user
-     *
      * @return mixed
      */
     public function publishLoginToken($user);
 
     /**
-     * @param $user
-     *
      * @return mixed
      */
     public function redeemLoginToken($token);

@@ -11,14 +11,15 @@ use Illuminate\Mail\Mailable;
  * Date: 2018/04/08
  * Time: 16:19
  */
-class InviteMailMailable extends TokenMailMailable {
+class InviteMailMailable extends TokenMailMailable
+{
+    protected $type = "invite";
 
-	protected $type = "invite";
+    public $targetAddress;
 
-	public $targetAddress;
-
-	public function setTargetAddress($email){
-		$this->targetAddress = $email;
-		$this->to($email);
-	}
+    public function setTargetAddress($email)
+    {
+        $this->targetAddress = $email;
+        $this->to($email);
+    }
 }

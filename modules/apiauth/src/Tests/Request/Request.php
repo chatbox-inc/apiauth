@@ -1,5 +1,6 @@
 <?php
 namespace Chatbox\ApiAuth\Tests\Request;
+
 use Illuminate\Auth\RequestGuard;
 use Illuminate\Support\Facades\Auth;
 
@@ -10,37 +11,29 @@ use Illuminate\Support\Facades\Auth;
  * Time: 18:23
  */
 
-class Request {
+class Request
+{
+    public static $runner;
 
-	static public $runner;
+    use MailEntries;
+    use UserEntries;
+    use AuthEntries;
 
-	use MailEntries;
-	use UserEntries;
-	use AuthEntries;
+    public function run()
+    {
+        return call_user_func(static::$runner, $this);
+    }
 
-	public function run(){
-		return call_user_func(static::$runner,$this);
-	}
+    public $path;
 
-	public $path;
+    public $method;
 
-	public $method;
+    public $body;
 
-	public $body;
-
-	/**
-	 * Request constructor.
-	 *
-	 * @param $path
-	 * @param $method
-	 * @param $body
-	 * @param $token
-	 */
-	public function __construct( $path, $method, $body=[] ) {
-		$this->path   = $path;
-		$this->method = $method;
-		$this->body   = $body;
-	}
-
-
+    public function __construct($path, $method, $body=[])
+    {
+        $this->path   = $path;
+        $this->method = $method;
+        $this->body   = $body;
+    }
 }

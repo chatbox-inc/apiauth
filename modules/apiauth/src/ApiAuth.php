@@ -16,9 +16,10 @@ class ApiAuth extends Manager
 
     protected $active = null;
 
-	public function getDefaultDriver() {
-		return $this->active;
-	}
+    public function getDefaultDriver()
+    {
+        return $this->active;
+    }
 
     public function setActive(string $active)
     {
@@ -30,9 +31,9 @@ class ApiAuth extends Manager
         return $this->driver();
     }
 
-    public function extendWithConfig($name,$config)
+    public function extendWithConfig($name, $config)
     {
-    	# now only support a config as factory
-    	return $this->extend($name,$config);
+        # now only support a config as factory
+        return $this->extend($name, $config);
     }
 }

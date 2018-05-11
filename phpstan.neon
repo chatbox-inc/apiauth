@@ -1,0 +1,3 @@
+parameters:
+    universalObjectCratesClasses:
+        - Illuminate\Database\Eloquent\Model

@@ -16,16 +16,12 @@ class AuthController
 {
     use ApiAuthControllerTrait;
 
-	protected $mail;
+    protected $mail;
 
-	/**
-	 * MailController constructor.
-	 *
-	 * @param $mail
-	 */
-	public function __construct(TokenMailService $mail ) {
-		$this->mail = $mail;
-	}
+    public function __construct(TokenMailService $mail)
+    {
+        $this->mail = $mail;
+    }
 
     protected function credential()
     {
@@ -77,12 +73,12 @@ class AuthController
 
     public function change_email()
     {
-	    $token = $this->mailtoken();
-	    $message = $this->mail->inquery($token);
-	    if ($message instanceof ChangeEmailMailMailable) {
-		    $this->userService()->changeEmail($message->user, $message->targetAddress);
-		    return $this->response([]);
-	    }
-	    throw new \Exception(); //TODO FIXED
+        $token = $this->mailtoken();
+        $message = $this->mail->inquery($token);
+        if ($message instanceof ChangeEmailMailMailable) {
+            $this->userService()->changeEmail($message->user, $message->targetAddress);
+            return $this->response([]);
+        }
+        throw new \Exception(); //TODO FIXED
     }
 }

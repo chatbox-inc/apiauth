@@ -13,40 +13,43 @@ use Illuminate\Queue\SerializesModels;
  * Date: 2018/04/08
  * Time: 16:19
  */
-abstract class TokenMailMailable extends Mailable {
+abstract class TokenMailMailable extends Mailable
+{
+    use SerializesModels;
 
-	use SerializesModels;
+    protected $type;
 
-	protected $type;
+    public $template;
 
-	public $template;
+    public $token;
 
-	public $token;
+    /**
+     * テンプレート名は設定経由で注入したい。
+     *
+     * @param $template
+     * @param $token
+     */
+    public function __construct($template)
+    {
+        $this->template = $template;
+    }
 
-	/**
-	 * テンプレート名は設定経由で注入したい。
-	 *
-	 * @param $template
-	 * @param $token
-	 */
-	public function __construct( $template) {
-		$this->template = $template;
-	}
+    public function isTypeOf($type)
+    {
+        return $type === $this->type;
+    }
 
-	public function isTypeOf($type){
-		return $type === $this->type;
-	}
+    public function token()
+    {
+        if (!$this->token) {
+            $this->token = sha1(mt_rand(0, 9999999999));
+        }
+        return $this->token;
+    }
 
-	public function token(){
-		if(!$this->token){
-			$this->token = sha1(mt_rand(0,9999999999));
-		}
-		return $this->token;
-	}
-
-	public function build()
-	{
-		return $this->view($this->template)
-		            ->with("token",$this->token);
-	}
+    public function build()
+    {
+        return $this->view($this->template)
+                    ->with("token", $this->token);
+    }
 }

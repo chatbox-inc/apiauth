@@ -19,16 +19,17 @@ class MailController
 
     protected $mail;
 
-	/**
-	 * MailController constructor.
-	 *
-	 * @param $mail
-	 */
-	public function __construct(TokenMailService $mail ) {
-		$this->mail = $mail;
-	}
+    /**
+     * MailController constructor.
+     *
+     * @param $mail
+     */
+    public function __construct(TokenMailService $mail)
+    {
+        $this->mail = $mail;
+    }
 
-	protected function email()
+    protected function email()
     {
         return $this->request()->email();
     }
@@ -40,35 +41,35 @@ class MailController
 
     protected function message($type):TokenMailMailable
     {
-    	return $this->apiauth()->message($type);
+        return $this->apiauth()->message($type);
     }
 
     public function inquery($type)
     {
-	    $token = $this->mailtoken();
-	    $message = $this->mail->inquery($token);
-	    if($message && $message->isTypeOf($type)){
-		    return $this->response([
-			    "message" => $message
-		    ]);
-	    }else{
-		    abort(404);
-	    }
+        $token = $this->mailtoken();
+        $message = $this->mail->inquery($token);
+        if ($message && $message->isTypeOf($type)) {
+            return $this->response([
+                "message" => $message
+            ]);
+        } else {
+            abort(404);
+        }
     }
 
     public function send($type)
     {
-	    $type = ucfirst(strtolower(str_replace("_","",$type)));
-	    if(is_callable([$this,"send{$type}"])){
-		    return $this->{"send{$type}"}();
-	    }else{
-		    return abort(404);
-	    }
+        $type = ucfirst(strtolower(str_replace("_", "", $type)));
+        if (is_callable([$this,"send{$type}"])) {
+            return $this->{"send{$type}"}();
+        } else {
+            abort(404);
+        }
     }
 
     protected function sendInvite()
     {
-    	$email = $this->email();
+        $email = $this->email();
         $user = $this->userService()->findByEmail($email);
         if (!$user) {
             $message = $this->message("invite");
@@ -79,17 +80,17 @@ class MailController
                 "message" => $message
             ]);
         } else {
-            return abort(403);
+            abort(403);
         }
     }
 
     protected function sendResetpass()
     {
-	    $user = $this->apiauth()->guard()->user();
-    	if(! $user ){
-	        $email = $this->email();
-	        $user = $this->userService()->findByEmail($email);
-	    }
+        $user = $this->apiauth()->guard()->user();
+        if (! $user) {
+            $email = $this->email();
+            $user = $this->userService()->findByEmail($email);
+        }
         if ($user) {
             $message = $this->message("reset_pass");
             assert($message instanceof PasswordResetMailMailable);
@@ -99,25 +100,25 @@ class MailController
                 "message" => $message
             ]);
         } else {
-            return abort(403);
+            abort(403);
         }
     }
 
     protected function sendChangeemail()
     {
-	    $email = $this->email();
-	    $user = $this->apiauth()->guard()->user();
-	    if ($user) {
-		    $message = $this->message("change_email");
-		    assert($message instanceof ChangeEmailMailMailable);
-		    $message->setUser($user);
-		    $message->setTargetAddress($email);
-		    $message = $this->mail->send($message);
-		    return $this->response([
-			    "message" => $message
-		    ]);
-	    } else {
-		    return abort(403);
-	    }
+        $email = $this->email();
+        $user = $this->apiauth()->guard()->user();
+        if ($user) {
+            $message = $this->message("change_email");
+            assert($message instanceof ChangeEmailMailMailable);
+            $message->setUser($user);
+            $message->setTargetAddress($email);
+            $message = $this->mail->send($message);
+            return $this->response([
+                "message" => $message
+            ]);
+        } else {
+            abort(403);
+        }
     }
 }

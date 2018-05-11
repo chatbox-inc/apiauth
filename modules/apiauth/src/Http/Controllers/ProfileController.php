@@ -1,5 +1,6 @@
 <?php
 namespace Chatbox\ApiAuth\Http\Controllers;
+
 use Chatbox\ApiAuth\Mail\TokenMailService;
 
 /**
@@ -12,16 +13,17 @@ class ProfileController
 {
     use ApiAuthControllerTrait;
 
-	/**
-	 * MailController constructor.
-	 *
-	 * @param $mail
-	 */
-	public function __construct(TokenMailService $mail ) {
-		$this->mail = $mail;
-	}
+    /**
+     * MailController constructor.
+     *
+     * @param $mail
+     */
+    public function __construct(TokenMailService $mail)
+    {
+        $this->mail = $mail;
+    }
 
-	public function me()
+    public function me()
     {
         $user = $this->authenUser();
         return $this->response([

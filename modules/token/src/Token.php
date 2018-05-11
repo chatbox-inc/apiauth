@@ -1,37 +1,23 @@
 <?php
 namespace Chatbox\Token;
+
 use Carbon\Carbon;
-use Chatbox\MailToken\Mailable\TokenMessageMailable;
 use Illuminate\Queue\SerializesModels;
 
-/**
- * トークン本体
- * User: mkkn
- * Date: 2018/04/08
- * Time: 4:00
- */
-class Token {
+class Token
+{
+    use SerializesModels;
 
-	use SerializesModels;
+    public $token;
 
-	public $token;
+    public $data;
 
-	public $data;
+    public $createdAt;
 
-	public $createdAt;
-
-	/**
-	 * Token constructor.
-	 *
-	 * @param $token
-	 * @param $data
-	 * @param $createdAt
-	 */
-	public function __construct( $token, $data=[],Carbon $createdAt = null ) {
-		$this->token     = $token;
-		$this->data      = $data;
-		$this->createdAt = $createdAt ?: Carbon::now();
-	}
-
-
+    public function __construct($token, $data=[], Carbon $createdAt = null)
+    {
+        $this->token     = $token;
+        $this->data      = $data;
+        $this->createdAt = $createdAt ?: Carbon::now();
+    }
 }

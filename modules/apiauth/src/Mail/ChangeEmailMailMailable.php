@@ -11,20 +11,22 @@ use Illuminate\Mail\Mailable;
  * Date: 2018/04/08
  * Time: 16:19
  */
-class ChangeEmailMailMailable extends TokenMailMailable {
+class ChangeEmailMailMailable extends TokenMailMailable
+{
+    protected $type = "change_email";
 
-	protected $type = "change_email";
+    public $user;
 
-	public $user;
+    public $targetAddress;
 
-	public $targetAddress;
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
 
-	public function setUser($user){
-		$this->user = $user;
-	}
-
-	public function setTargetAddress($address){
-		$this->targetAddress = $address;
-		$this->to($address);
-	}
+    public function setTargetAddress($address)
+    {
+        $this->targetAddress = $address;
+        $this->to($address);
+    }
 }

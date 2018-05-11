@@ -41,8 +41,8 @@ trait ApiAuthControllerTrait
 
     protected function authenUser():Authenticatable
     {
-        if($user = $this->apiauth()->guard()->user()){
-        	return $user;
+        if ($user = $this->apiauth()->guard()->user()) {
+            return $user;
         }
         throw new AuthenticationException();
     }

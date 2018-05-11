@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Validator;
 
+/**
+ * Class UserService
+ * @package Chatbox\ApiAuth\Concept
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ */
 class UserService extends User implements \Chatbox\ApiAuth\Drivers\UserService
 {
     protected $table = "users";
