@@ -118,12 +118,9 @@ class UserService extends User implements \Chatbox\ApiAuth\Drivers\UserService
         return $token;
     }
 
-    public function redeemLoginToken($token)
+    public function redeemLoginToken($user)
     {
-        $user = $this->findByToken($token);
-        if ($user) {
-            $user->remember_token = null;
-            $user->save();
-        }
+        $user->remember_token = null;
+        $user->save();
     }
 }

@@ -63,5 +63,5 @@ interface UserService
     /**
      * @return mixed
      */
-    public function redeemLoginToken($token);
+    public function redeemLoginToken($user);
 }
