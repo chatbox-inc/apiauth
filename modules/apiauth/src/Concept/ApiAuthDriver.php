@@ -41,15 +41,18 @@ class ApiAuthDriver implements \Chatbox\ApiAuth\Drivers\ApiAuthDriver
      * @param $guard
      */
     public function __construct(
-        UserService $user,
-        TokenMailService $token_mail_service
+        UserService $user
     ) {
         $this->user  = $user;
-        app('auth')->viaRequest('api', function ($request) use ($user) {
-            if ($token = $request->bearerToken()) {
-                return $user->findByToken($token);
-            }
-        });
+        $this->setupGuard();
+    }
+
+    public function setupGuard(){
+	    app('auth')->viaRequest('api', function ($request) {
+		    if ($token = $request->bearerToken()) {
+			    return $this->user->findByToken($token);
+		    }
+	    });
     }
 
     /**
