@@ -56,12 +56,12 @@ class AuthController
     {
         $token = $this->token();
         $user = $this->userService()->findByToken($token);
-	    if ($user) {
-		    $this->userService()->redeemLoginToken($user);
-		    return $this->response([
-		    ]);
-	    }
-	    throw new \Exception(); //TODO FIXED
+        if ($user) {
+            $this->userService()->redeemLoginToken($user);
+            return $this->response([
+            ]);
+        }
+        throw new \Exception(); //TODO FIXED
     }
 
     public function reset_pass()
