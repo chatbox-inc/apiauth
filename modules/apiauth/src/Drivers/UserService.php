@@ -43,7 +43,7 @@ interface UserService
     /**
      * @return mixed
      */
-    public function deleteUser($user);
+    public function deleteUser($user):void;
 
     /**
      * @return mixed
@@ -63,5 +63,5 @@ interface UserService
     /**
      * @return mixed
      */
-    public function redeemLoginToken($user);
+    public function redeemLoginToken($user):void;
 }

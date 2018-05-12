@@ -79,7 +79,7 @@ class UserService extends User implements \Chatbox\ApiAuth\Drivers\UserService
         }
     }
 
-    public function deleteUser($user)
+    public function deleteUser($user):void
     {
         assert($user instanceof User);
         $user->delete();
@@ -118,7 +118,7 @@ class UserService extends User implements \Chatbox\ApiAuth\Drivers\UserService
         return $token;
     }
 
-    public function redeemLoginToken($user)
+    public function redeemLoginToken($user):void
     {
         $user->remember_token = null;
         $user->save();

@@ -39,7 +39,7 @@ trait ApiAuthControllerTrait
         return $this->apiauth()->userService();
     }
 
-    protected function authenUser():Authenticatable
+    protected function authenUser()
     {
         if ($user = $this->apiauth()->guard()->user()) {
             return $user;
