@@ -29,8 +29,8 @@ class IlluminateCacheTokenService implements TokenService
         if ($this->cache->has($token->token)) {
             throw new \Exception("invalid token already used");
         }
-        $token = base64_encode(serialize($token));
-        $this->cache->forever($token->token, $token);
+        $__token = base64_encode(serialize($token));
+        $this->cache->forever($token->token, $__token);
         return $token;
     }
 
