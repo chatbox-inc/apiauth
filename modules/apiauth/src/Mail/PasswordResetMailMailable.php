@@ -21,4 +21,10 @@ class PasswordResetMailMailable extends TokenMailMailable
     {
         $this->user = $user;
     }
+
+	public function setTargetAddress($address)
+	{
+		$this->targetAddress = $address;
+		$this->to($address);
+	}
 }
