@@ -29,6 +29,7 @@ class IlluminateCacheTokenService implements TokenService
         if ($this->cache->has($token->token)) {
             throw new \Exception("invalid token already used");
         }
+        $token = base64_encode(serialize($token));
         $this->cache->forever($token->token, $token);
         return $token;
     }
@@ -36,13 +37,14 @@ class IlluminateCacheTokenService implements TokenService
     public function redeem(Token $token): ?Token
     {
         $token = $this->cache->pull($token->token);
+        $token = unserialize(base64_decode($token));
         return $token;
     }
 
     public function inquery(Token $token): ?Token
     {
         $_token = $this->cache->get($token->token);
-        $_token = $_token;
+	    $_token = unserialize(base64_decode($_token));
         return $_token;
     }
 }
