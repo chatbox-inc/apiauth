@@ -94,6 +94,7 @@ class MailController
         if ($user) {
             $message = $this->message("reset_pass");
             assert($message instanceof PasswordResetMailMailable);
+	        $message->setTargetAddress($email);
             $message->setUser($user);
             $message = $this->mail->send($message);
             return $this->response([
